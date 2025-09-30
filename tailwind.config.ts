@@ -7,11 +7,26 @@ const config: Config = {
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-    extend: {
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+   extend: {
+      fontFamily: {
+        title: ['Inter', 'sans-serif'],
+      },
+      colors: {
+        black: '#000000',
+        l_black: '#101828',
+        d_gray: '#475467',
+        gray: '#344054',
+        Slate_500:'#94A3B8' ,
+
+      },
+      animation: {
+        shimmer: 'shimmer 1.5s infinite',
+      },
+      keyframes: {
+        shimmer: {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(100%)' },
+        },
       },
     },
   },
