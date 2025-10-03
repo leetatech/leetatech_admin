@@ -53,9 +53,8 @@ const Loginpage = () => {
       )}
            </div>
 
-            <div>
-                <Checkbox className='data-[state=checked]:bg-orange-500 data-[state=checked]:text-white data-[state=checked]:border-orange-500"
-      ' id="remember"  />
+            <div className='flex items-center'>
+                <Checkbox className='data-[state=checked]:bg-orange-500 data-[state=checked]:text-white data-[state=checked]:border-orange-500"' id="remember"  />
                 <Label htmlFor="remember" className="ml-2">Remember me</Label>
             </div>
             <Button  type="submit" className="w-full text-white bg-orange-500">Log in</Button>
