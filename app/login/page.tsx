@@ -88,7 +88,7 @@ const Loginpage = () => {
           </div>
         </div>
       ) : !accessDenied ? (
-        // ✅ LOGIN FORM
+        //  LOGIN FORM
         <div className="bg-white p-8 pb-8 rounded-sm w-[295px] sm:w-[491px] shadow-lg transition-all duration-300">
           <Image
             src="/logo.png"
@@ -164,7 +164,7 @@ const Loginpage = () => {
           </form>
         </div>
       ) : (
-        // ⚠️ ACCESS DENIED MODAL
+        // ACCESS DENIED MODAL
         <div className="bg-white rounded-md pb-4 p-10 text-center w-[300px] sm:w-[600px] shadow-lg">
           <Image
             src="/material-symbols_warning.png"
