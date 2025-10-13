@@ -5,18 +5,13 @@ import { Input } from "../view/component/components/ui/input"
 import { Button } from "../view/component/components/ui/button"
 import { Checkbox } from "../view/component/components/ui/checkbox"
 import { Label } from "../view/component/components/ui/label"
+import { Skeleton } from "../view/component/components/ui/skeleton"
 import { IoEyeOffOutline, IoPersonOutline, IoEyeOutline } from "react-icons/io5"
-
-// Simple skeleton loader
-const Skeleton = ({ className }: { className?: string }) => (
-  <div className={`animate-pulse bg-gray-200 rounded ${className}`}></div>
-)
 
 const Loginpage = () => {
   const [showPassword, setShowPassword] = useState(false)
   const [accessDenied, setAccessDenied] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
-
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [errors, setErrors] = useState<{ email?: string; password?: string }>({})
@@ -30,17 +25,11 @@ const Loginpage = () => {
     const newErrors: { email?: string; password?: string } = {}
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
-    if (!email) {
-      newErrors.email = "Email is required"
-    } else if (!emailRegex.test(email)) {
-      newErrors.email = "Enter a valid email address"
-    }
+    if (!email) newErrors.email = "Email is required"
+    else if (!emailRegex.test(email)) newErrors.email = "Enter a valid email address"
 
-    if (!password) {
-      newErrors.password = "Password is required"
-    } else if (password.length < 8) {
-      newErrors.password = "Password must be at least 8 characters"
-    }
+    if (!password) newErrors.password = "Password is required"
+    else if (password.length < 8) newErrors.password = "Password must be at least 8 characters"
 
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
@@ -48,48 +37,67 @@ const Loginpage = () => {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault()
-    if (validateForm()) {
-      // simulate login failure
-      setAccessDenied(true)
-    }
+    if (validateForm()) setAccessDenied(true)
   }
 
-  const handleGoBack = () => {
-    setAccessDenied(false)
-  }
+  const handleGoBack = () => setAccessDenied(false)
 
   return (
     <div className="h-screen w-screen bg-[url('/loginbackground.png')] bg-cover bg-no-repeat bg-center flex justify-center items-center">
       {isLoading ? (
-        // 🦴 FORM-SHAPED SKELETON
-        <div className="bg-white p-8 pb-8 rounded-sm w-[295px] sm:w-[491px] shadow-lg space-y-4">
-          <div className="flex flex-col items-center space-y-2">
-            <Skeleton className="w-20 h-20 rounded-full" />
-            <Skeleton className="w-40 h-6" />
+        //  Clean form-shaped skeleton loader
+        <div className="bg-white p-8 pb-8 rounded-lg w-[299px] sm:w-[491px] shadow-lg ">
+          {/* Avatar + title */}
+          <div className="flex flex-col items-center  gap-4 space-y-3">
+            <Skeleton className="h-12 bg-[#E6E6E6] w-10 rounded-full" />
+            <Skeleton className="h-3 bg-[#E6E6E6] ml-20 w-[76px]" />
           </div>
 
-          <div className="space-y-4 mt-6">
-            <div>
-              <Skeleton className="w-16 h-4 mb-2" />
-              <Skeleton className="w-full h-10 rounded-md" />
+          <div className="space-y-5 mt-4">
+            {/* Email field */}
+            <div className="space-y-2 ">
+              <Skeleton className="h-3 bg-[#E6E6E6] w-10" />
+              <div className="flex items-center pt-2 gap-2">
+                <Skeleton className="h-4 w-4 bg-[#E6E6E6] rounded-full" />
+              <Skeleton className="h-[10px] w-24 bg-[#E6E6E6] rounded-md" />
+
+              </div>
             </div>
 
-            <div>
-              <Skeleton className="w-20 h-4 mb-2" />
-              <Skeleton className="w-full h-10 rounded-md" />
+            {/* Password field */}
+            <div className="space-y-2">
+              <Skeleton className="h-3 bg-[#E6E6E6] w-20" />
+              <div className="flex pt-2 justify-between">
+                <Skeleton className="h-[10px] bg-[#E6E6E6] w-[119px] rounded-md" />
+                <Skeleton className="h-4 w-4 bg-[#E6E6E6] rounded-md" />
+
+              </div>
             </div>
 
-            <div className="flex items-center space-x-2 mt-2">
-              <Skeleton className="w-4 h-4 rounded-sm" />
-              <Skeleton className="w-24 h-4" />
+            {/* Remember me */}
+            <div className="flex items-center pt-2 gap-2 mt-1">
+              
+              <Image
+                src="/Checkbox.png"
+                alt="Logo"
+                width={20}
+                height={20}
+                className=""
+              />
+              <Skeleton className="h-3 bg-[#E6E6E6] w-28" />
             </div>
 
-            <Skeleton className="w-full h-10 rounded-md mt-4" />
+            {/* Orange button */}
+            <div className="mt-6">
+              <div className="h-10 w-full rounded-md bg-orange-500 flex justify-center items-center">
+                <Skeleton className="h-2 w-12 bg-white/80 rounded-full" />
+              </div>
+            </div>
           </div>
         </div>
       ) : !accessDenied ? (
         //  LOGIN FORM
-        <div className="bg-white p-8 pb-8 rounded-sm w-[295px] sm:w-[491px] shadow-lg transition-all duration-300">
+        <div className="bg-white p-8 pb-8 rounded-lg w-[295px] sm:w-[491px] shadow-lg transition-all duration-300">
           <Image
             src="/logo.png"
             alt="Logo"
@@ -164,7 +172,7 @@ const Loginpage = () => {
           </form>
         </div>
       ) : (
-        // ACCESS DENIED MODAL
+        // ACCESS DENIED
         <div className="bg-white rounded-md pb-4 p-10 text-center w-[300px] sm:w-[600px] shadow-lg">
           <Image
             src="/material-symbols_warning.png"
