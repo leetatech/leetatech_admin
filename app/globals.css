@@ -88,6 +88,6 @@
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
      @apply bg-cover bg-center;
-  background-image: url('/loginbackground.png');
+  /* background-image: url('/loginbackground.png'); */
   }
 }

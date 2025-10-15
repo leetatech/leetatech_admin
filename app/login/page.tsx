@@ -12,6 +12,7 @@ const Loginpage = () => {
   const [showPassword, setShowPassword] = useState(false)
   const [accessDenied, setAccessDenied] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
+  const[isLoad, setIsLoad] = useState(false)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [errors, setErrors] = useState<{ email?: string; password?: string }>({})
@@ -35,10 +36,58 @@ const Loginpage = () => {
     return Object.keys(newErrors).length === 0
   }
 
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (validateForm()) setAccessDenied(true)
+ const handleLogin = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  if (!validateForm()) return;
+
+  try {
+    setIsLoading(true);
+
+    const payload = {
+      email,
+      password,
+      device_id: "web-client",
+      fcm_token: "no-token",
+      user_type: "vendor",
+    };
+
+    const response = await fetch("/api/session/signin", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    device_id: "web-client",
+    email,
+    fcm_token: "no-token",
+    password,
+    user_type: "vendor",
+  }),
+})
+
+    let data;
+    try {
+      data = await response.json();
+    } catch {
+      data = null;
+    }
+
+    console.log("Response status:", response.status);
+    console.log("Response body:", data);
+
+    if (response.ok) {
+      localStorage.setItem("token", data?.auth_token);
+      window.location.href = "/";
+    } else {
+      setAccessDenied(true);
+    }
+  } catch (error) {
+    console.error("Login failed:", error);
+    setAccessDenied(true);
+  } finally {
+    setIsLoading(false);
   }
+};
+
 
   const handleGoBack = () => setAccessDenied(false)
 
@@ -164,6 +213,7 @@ const Loginpage = () => {
             </div>
 
             <Button
+            
               type="submit"
               className="w-full text-white bg-orange-500 hover:bg-orange-600"
             >
